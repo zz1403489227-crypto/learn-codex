@@ -1,0 +1,31 @@
+# Local reference repositories used while writing the course.
+/learn-claude-code/
+/references/
+
+# Secrets and local runtime state.
+.env
+.env.*
+!.env.example
+.codex/
+.memory/
+.rollouts/
+.threads/
+.task_outputs/
+
+# Python.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Java and editors.
+target/
+build/
+.gradle/
+.idea/
+.vscode/
+
+# OS files.
+.DS_Store
+

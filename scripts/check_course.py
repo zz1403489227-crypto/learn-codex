@@ -50,6 +50,25 @@ def main() -> int:
             diagram = text.find("```mermaid")
             if diagram == -1 or (first_h2 != -1 and diagram > first_h2):
                 errors.append(f"{chapter.name}/README.md must begin with a Mermaid diagram")
+            if "状态：待编写" not in text:
+                source_notes = chapter / "SOURCE_NOTES.md"
+                if not source_notes.is_file():
+                    errors.append(
+                        f"{chapter.name} is completed but missing SOURCE_NOTES.md"
+                    )
+                else:
+                    notes = source_notes.read_text(encoding="utf-8")
+                    for heading in (
+                        "## 研究快照",
+                        "## 实际阅读",
+                        "## 从源码确认的事实",
+                        "## 教学实现的简化",
+                        "## 未确认与不写入正文的内容",
+                    ):
+                        if heading not in notes:
+                            errors.append(
+                                f"{chapter.name}/SOURCE_NOTES.md missing heading: {heading}"
+                            )
 
     if errors:
         print("Course structure check failed:")
@@ -63,4 +82,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

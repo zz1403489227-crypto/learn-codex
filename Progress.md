@@ -4,11 +4,13 @@
 
 ## 当前状态
 
-- 当前里程碑：**M0 Foundation**
+- 当前里程碑：**M1 Runnable Core**
 - 当前分支：`main`
 - 已完成章节：0 / 24
-- 正在进行：项目基础设施与课程路线
+- 已完成里程碑：**M0 Foundation**
+- 正在进行：准备编写第一章
 - 下一章：`s01_turn_loop`
+- GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
 
@@ -52,16 +54,14 @@
 - 公开 Codex 源码变化较快。章节写作前需要核对当前快照，避免把易漂移细节写成稳定事实。
 - 当前系统默认 `python3` 是 3.9；课程代码目标为 Python 3.11+，本机可使用
   `/Users/air/.local/bin/python3.11` 或 `uv run --python 3.11`。
-- Foundation 推送前仍需创建 GitHub 远程仓库。
+- 尚未确定教程最终许可证；正式发布前需要由用户确认。
 - 章节目录当前仅为骨架，不代表正文完成。
 
 ## 下一步
 
-1. 完成并验证 Foundation commit。
-2. 创建 GitHub 公开仓库并推送 Foundation。
-3. 编写 `s01_turn_loop`：
+1. 编写 `s01_turn_loop`：
    - 图：User Input → Turn → Model → Tool Call → Tool Result → Turn Complete
    - Python 最小事件化 Turn Loop
    - 解释 Codex 的 Thread / Turn / Item 术语边界，但不提前展开持久化
    - 添加本章测试与运行说明
-4. 完成 s01 后更新本文件、单独 commit 并 push。
+2. 完成 s01 后更新本文件、单独 commit 并 push。

@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M1 Runnable Core**
 - 当前分支：`main`
-- 已完成章节：0 / 24
+- 已完成章节：1 / 24
 - 已完成里程碑：**M0 Foundation**
-- 正在进行：准备编写第一章
-- 下一章：`s01_turn_loop`
+- 正在进行：准备编写第二章
+- 下一章：`s02_streaming_items`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -21,12 +21,17 @@
 - 确定 24 章课程路线。
 - 建立 `AGENTS.md`、`Plan.md`、`Progress.md` 与公开 README。
 - 建立源码映射、决策记录、章节模板、目录骨架和结构检查脚本。
+- 完成 `s01_turn_loop`：
+  - 建立 Thread、Turn、Item 的初步心智模型。
+  - 实现零依赖、可离线运行的 Python Turn Loop。
+  - 使用粗粒度 Event 暴露 Turn 生命周期。
+  - 添加工具调用、跨 Turn 历史、直接回答和循环上限测试。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
-| 从循环到运行时 | s01-s05 | 未开始 |
+| 从循环到运行时 | s01 完成；s02-s05 未开始 | 进行中 |
 | 安全运行时 | s06-s09 | 未开始 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
@@ -48,6 +53,12 @@
   - 结果：通过。
 - `git status --short --branch --ignored`
   - 结果：确认 `learn-claude-code/` 与 `references/` 处于 ignored 状态。
+- `/Users/air/.local/bin/python3.11 s01_turn_loop/code.py "Codex turns model requests into agent actions"`
+  - 结果：一次 Turn 完成两次 sampling、一次工具调用，最终输出 `7 words`。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s01_turn_loop -p 'test_*.py' -v`
+  - 结果：4 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s01_turn_loop`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -59,9 +70,9 @@
 
 ## 下一步
 
-1. 编写 `s01_turn_loop`：
-   - 图：User Input → Turn → Model → Tool Call → Tool Result → Turn Complete
-   - Python 最小事件化 Turn Loop
-   - 解释 Codex 的 Thread / Turn / Item 术语边界，但不提前展开持久化
-   - 添加本章测试与运行说明
-2. 完成 s01 后更新本文件、单独 commit 并 push。
+1. 编写 `s02_streaming_items`：
+   - 在 s01 粗粒度事件上加入 `item/started`、文本 delta 与 `item/completed`。
+   - 实现事件 reducer，将事件流还原为客户端可见状态。
+   - 解释模型侧 `ResponseItem` 与客户端侧 `TurnItem` 的不同视角。
+   - 保持 s01 Turn Loop 主干稳定。
+2. 完成 s02 后更新本文件、单独 commit 并 push。

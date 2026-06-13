@@ -51,6 +51,9 @@ flowchart LR
 
 ## 写作状态
 
-目前处于 **Foundation** 阶段：课程边界、章节路线、协作规范和目录骨架已经建立，
-正文将从 `s01_turn_loop` 开始逐章完成。每完成一章，都应单独提交并推送。
+目前处于 **M1 Runnable Core** 阶段：课程边界、章节路线、协作规范和目录骨架已经建立。
 
+- 已完成：[s01 Turn Loop](./s01_turn_loop/)
+- 下一章：`s02_streaming_items`
+
+每完成一章，都会单独提交并推送。

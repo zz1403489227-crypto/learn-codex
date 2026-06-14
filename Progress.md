@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M2 Safe Runtime**
 - 当前分支：`main`
-- 已完成章节：5 / 24
+- 已完成章节：6 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**
-- 正在进行：准备编写第六章
-- 下一章：`s06_approval_pipeline`
+- 正在进行：准备编写第七章
+- 下一章：`s07_sandbox_permissions`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -59,13 +59,22 @@
   - 在任何写入前验证完整教学 PatchPlan，并明确区别于真实 Codex 可追踪部分成功的行为。
   - 添加补丁解析、读取上限、路径边界、多文件修改、失败无提交和完整 Turn 测试。
   - 明确教学 `read_file`、JSON patch 参数与真实 Codex freeform apply_patch 的边界。
+- 完成 `s06_approval_pipeline`：
+  - 基于 Codex ReviewDecision、ExecApprovalRequirement、ToolOrchestrator 与 pending approvals 建立审批状态机。
+  - 在工具验证与执行之间加入 ApprovalOrchestrator，区分 Skip、NeedsApproval 与 Forbidden。
+  - 新增结构化 ApprovalRequest、requested/resolved 事件和 Turn pending approval 投影。
+  - 实现 Approved、ApprovedForSession、Denied 与 Abort，并区分拒绝后继续和中止当前 Turn。
+  - 使用精确 action keys 缓存 session approval，只有全部 keys 命中时才跳过提示。
+  - 在 patch 审批前预验证拟议变化，并在获批执行时再次验证。
+  - 添加分类、事件顺序、拒绝、中止、session 缓存、无效请求和完整 Turn 测试。
+  - 明确 approval 表达用户同意，但不替代 sandbox 与实际权限限制。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
-| 安全运行时 | s06-s09 | 准备开始 |
+| 安全运行时 | s06 完成；s07-s09 未开始 | 进行中 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
@@ -116,6 +125,12 @@
   - 结果：10 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s05_file_tools_apply_patch`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s06_approval_pipeline/code.py`
+  - 结果：读取自动执行，patch 在 requested/resolved 审批事件后执行并完成 Turn。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s06_approval_pipeline -p 'test_*.py' -v`
+  - 结果：12 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s06_approval_pipeline`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -127,8 +142,8 @@
 
 ## 下一步
 
-1. 编写 `s06_approval_pipeline`：
-   - 阅读 Codex approval protocol、guardian approval request、tool lifecycle 与相关测试。
-   - 在结构化工具运行时中加入 approval request、decision 与恢复执行路径。
-   - 解释 approval 决策与实际 sandbox 权限限制的区别。
-2. 完成 s06 后更新本文件、单独 commit 并 push。
+1. 编写 `s07_sandbox_permissions`：
+   - 阅读 Codex sandboxing、permission profile、平台 sandbox 与相关测试。
+   - 在获批工具运行时中加入真正限制可访问路径的 workspace sandbox model。
+   - 解释用户同意、运行时权限与操作系统强制边界的区别。
+2. 完成 s07 后更新本文件、单独 commit 并 push。

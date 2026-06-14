@@ -58,6 +58,7 @@ flowchart LR
 - 已完成：[s03 Tool Registry](./s03_tool_registry/)
 - 已完成：[s04 Shell Execution](./s04_shell_execution/)
 - 已完成：[s05 File Tools & Apply Patch](./s05_file_tools_apply_patch/)
-- 下一章：`s06_approval_pipeline`
+- 已完成：[s06 Approval Pipeline](./s06_approval_pipeline/)
+- 下一章：`s07_sandbox_permissions`
 
 每完成一章，都会单独提交并推送。

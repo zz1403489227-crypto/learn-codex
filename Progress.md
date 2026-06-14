@@ -1,15 +1,15 @@
 # Progress
 
-最后更新：2026-06-13
+最后更新：2026-06-14
 
 ## 当前状态
 
 - 当前里程碑：**M1 Runnable Core**
 - 当前分支：`main`
-- 已完成章节：2 / 24
+- 已完成章节：3 / 24
 - 已完成里程碑：**M0 Foundation**
-- 正在进行：准备编写第三章
-- 下一章：`s03_tool_registry`
+- 正在进行：准备编写第四章
+- 下一章：`s04_shell_execution`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -36,12 +36,20 @@
   - 实现按 `turn_id` 与 `item_id` 归并事件的 `EventReducer`。
   - 添加完成 Item 覆盖临时 delta、交错 Turn 路由和非法 delta 测试。
   - 明确教学版函数调用映射与真实 Codex 工具处理路径的边界。
+- 完成 `s03_tool_registry`：
+  - 基于 Codex ToolExecutor、ToolRegistry、ToolRouter 与 spec plan 建立工具运行时心智模型。
+  - 把硬编码 `count_words` 升级为 ToolSpec、Handler、Registry 与 Router。
+  - 在每次 sampling 时向模型暴露当前工具 specs。
+  - 实现必需参数、类型和额外参数的受限教学验证器。
+  - 将未知工具与非法参数转成可返回模型的失败 ToolResult。
+  - 添加发现、路由、重复注册、执行前验证和完整 Turn 测试。
+  - 明确模型可见工具与已注册工具、教学集中验证与真实 Handler 强类型解析的边界。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
-| 从循环到运行时 | s01-s02 完成；s03-s05 未开始 | 进行中 |
+| 从循环到运行时 | s01-s03 完成；s04-s05 未开始 | 进行中 |
 | 安全运行时 | s06-s09 | 未开始 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
@@ -75,6 +83,12 @@
   - 结果：5 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s02_streaming_items`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s03_tool_registry/code.py "tools need discoverable contracts"`
+  - 结果：模型看到 `count_words` 与 `repeat_text`，一次 Turn 完成两次 sampling 和一次注册工具调用。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s03_tool_registry -p 'test_*.py' -v`
+  - 结果：7 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s03_tool_registry`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -86,8 +100,8 @@
 
 ## 下一步
 
-1. 编写 `s03_tool_registry`：
-   - 阅读 Codex Tool Registry、Router、Orchestrator 与相关测试。
-   - 把 s02 中硬编码的 `count_words` 工具升级为可注册、可发现、可验证的工具。
-   - 保持 s02 的事件流与 reducer 主干稳定。
-2. 完成 s03 后更新本文件、单独 commit 并 push。
+1. 编写 `s04_shell_execution`：
+   - 阅读 Codex unified exec、exec session、shell handler 与相关测试。
+   - 在 s03 Tool Registry 上注册一个可处理长任务、持续输出和退出状态的 shell 工具。
+   - 设计有界输出与可轮询 exec session，同时保持现有 Item/Event 主干稳定。
+2. 完成 s04 后更新本文件、单独 commit 并 push。

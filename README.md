@@ -54,6 +54,8 @@ flowchart LR
 目前处于 **M1 Runnable Core** 阶段：课程边界、章节路线、协作规范和目录骨架已经建立。
 
 - 已完成：[s01 Turn Loop](./s01_turn_loop/)
-- 下一章：`s02_streaming_items`
+- 已完成：[s02 Streaming Items](./s02_streaming_items/)
+- 已完成：[s03 Tool Registry](./s03_tool_registry/)
+- 下一章：`s04_shell_execution`
 
 每完成一章，都会单独提交并推送。

@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M1 Runnable Core**
 - 当前分支：`main`
-- 已完成章节：3 / 24
+- 已完成章节：4 / 24
 - 已完成里程碑：**M0 Foundation**
-- 正在进行：准备编写第四章
-- 下一章：`s04_shell_execution`
+- 正在进行：准备编写第五章
+- 下一章：`s05_file_tools_apply_patch`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -44,12 +44,19 @@
   - 将未知工具与非法参数转成可返回模型的失败 ToolResult。
   - 添加发现、路由、重复注册、执行前验证和完整 Turn 测试。
   - 明确模型可见工具与已注册工具、教学集中验证与真实 Handler 强类型解析的边界。
+- 完成 `s04_shell_execution`：
+  - 基于 Codex Unified Exec、ProcessManager、HeadTailBuffer 与相关集成测试建立长命令心智模型。
+  - 在 s03 Tool Registry 上注册共享 ProcessManager 的 `exec_command` 与 `write_stdin`。
+  - 实现有限 yield、运行中 session、空轮询、stdin 写入、退出状态和完成后 session 清理。
+  - 同时限制未读 session 输出与单次模型响应，并保留截断和退出元数据。
+  - 添加短命令、长命令、交互输入、未知 session、资源回收和完整 Turn 测试。
+  - 明确教学版 `subprocess` 与真实 Codex approval、sandbox、PTY、exec-server 的边界。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
-| 从循环到运行时 | s01-s03 完成；s04-s05 未开始 | 进行中 |
+| 从循环到运行时 | s01-s04 完成；s05 未开始 | 进行中 |
 | 安全运行时 | s06-s09 | 未开始 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
@@ -89,6 +96,12 @@
   - 结果：7 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s03_tool_registry`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s04_shell_execution/code.py`
+  - 结果：一次 Turn 完成三次 sampling，依次执行 `exec_command`、空 `write_stdin` 轮询和最终回答。
+- `/Users/air/.local/bin/python3.11 -W error::ResourceWarning -m unittest discover -s s04_shell_execution -p 'test_*.py' -v`
+  - 结果：11 个测试通过，完成路径无 ResourceWarning。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s04_shell_execution`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -100,8 +113,8 @@
 
 ## 下一步
 
-1. 编写 `s04_shell_execution`：
-   - 阅读 Codex unified exec、exec session、shell handler 与相关测试。
-   - 在 s03 Tool Registry 上注册一个可处理长任务、持续输出和退出状态的 shell 工具。
-   - 设计有界输出与可轮询 exec session，同时保持现有 Item/Event 主干稳定。
-2. 完成 s04 后更新本文件、单独 commit 并 push。
+1. 编写 `s05_file_tools_apply_patch`：
+   - 阅读 Codex apply-patch、文件工具处理路径与相关测试。
+   - 在 s04 运行时上加入结构化文件读取、编辑与 apply-patch 教学工具。
+   - 解释文件修改为何需要可验证的结构化边界，而不应只依赖任意 shell 字符串。
+2. 完成 s05 后更新本文件、单独 commit 并 push。

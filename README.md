@@ -51,12 +51,13 @@ flowchart LR
 
 ## 写作状态
 
-目前处于 **M1 Runnable Core** 阶段：课程边界、章节路线、协作规范和目录骨架已经建立。
+目前已完成 **M1 Runnable Core**，开始进入 **M2 Safe Runtime** 阶段。
 
 - 已完成：[s01 Turn Loop](./s01_turn_loop/)
 - 已完成：[s02 Streaming Items](./s02_streaming_items/)
 - 已完成：[s03 Tool Registry](./s03_tool_registry/)
 - 已完成：[s04 Shell Execution](./s04_shell_execution/)
-- 下一章：`s05_file_tools_apply_patch`
+- 已完成：[s05 File Tools & Apply Patch](./s05_file_tools_apply_patch/)
+- 下一章：`s06_approval_pipeline`
 
 每完成一章，都会单独提交并推送。

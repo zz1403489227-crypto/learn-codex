@@ -4,12 +4,12 @@
 
 ## 当前状态
 
-- 当前里程碑：**M1 Runnable Core**
+- 当前里程碑：**M2 Safe Runtime**
 - 当前分支：`main`
-- 已完成章节：4 / 24
-- 已完成里程碑：**M0 Foundation**
-- 正在进行：准备编写第五章
-- 下一章：`s05_file_tools_apply_patch`
+- 已完成章节：5 / 24
+- 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**
+- 正在进行：准备编写第六章
+- 下一章：`s06_approval_pipeline`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -51,13 +51,21 @@
   - 同时限制未读 session 输出与单次模型响应，并保留截断和退出元数据。
   - 添加短命令、长命令、交互输入、未知 session、资源回收和完整 Turn 测试。
   - 明确教学版 `subprocess` 与真实 Codex approval、sandbox、PTY、exec-server 的边界。
+- 完成 `s05_file_tools_apply_patch`：
+  - 基于 Codex apply-patch parser、verification、handler、runtime 与行为测试建立结构化修改心智模型。
+  - 在既有 Registry 上注册受工作区约束的 `read_file` 与 `apply_patch`。
+  - 实现 add、update、delete 的最小补丁语法，并分离 parse、verify 与 commit。
+  - 使用旧文本唯一匹配检测缺失或歧义上下文，拒绝绝对路径、工作区逃逸和重复目标。
+  - 在任何写入前验证完整教学 PatchPlan，并明确区别于真实 Codex 可追踪部分成功的行为。
+  - 添加补丁解析、读取上限、路径边界、多文件修改、失败无提交和完整 Turn 测试。
+  - 明确教学 `read_file`、JSON patch 参数与真实 Codex freeform apply_patch 的边界。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
-| 从循环到运行时 | s01-s04 完成；s05 未开始 | 进行中 |
-| 安全运行时 | s06-s09 | 未开始 |
+| 从循环到运行时 | s01-s05 | 完成 |
+| 安全运行时 | s06-s09 | 准备开始 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
@@ -102,6 +110,12 @@
   - 结果：11 个测试通过，完成路径无 ResourceWarning。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s04_shell_execution`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s05_file_tools_apply_patch/code.py`
+  - 结果：一次 Turn 完成三次 sampling，依次读取文件、提交多文件 patch 并生成最终回答。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s05_file_tools_apply_patch -p 'test_*.py' -v`
+  - 结果：10 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s05_file_tools_apply_patch`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -113,8 +127,8 @@
 
 ## 下一步
 
-1. 编写 `s05_file_tools_apply_patch`：
-   - 阅读 Codex apply-patch、文件工具处理路径与相关测试。
-   - 在 s04 运行时上加入结构化文件读取、编辑与 apply-patch 教学工具。
-   - 解释文件修改为何需要可验证的结构化边界，而不应只依赖任意 shell 字符串。
-2. 完成 s05 后更新本文件、单独 commit 并 push。
+1. 编写 `s06_approval_pipeline`：
+   - 阅读 Codex approval protocol、guardian approval request、tool lifecycle 与相关测试。
+   - 在结构化工具运行时中加入 approval request、decision 与恢复执行路径。
+   - 解释 approval 决策与实际 sandbox 权限限制的区别。
+2. 完成 s06 后更新本文件、单独 commit 并 push。

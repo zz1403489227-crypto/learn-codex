@@ -4,12 +4,12 @@
 
 ## 当前状态
 
-- 当前里程碑：**M2 Safe Runtime**
+- 当前里程碑：**M3 Context Architecture**
 - 当前分支：`main`
-- 已完成章节：8 / 24
-- 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**
-- 正在进行：准备编写第九章
-- 下一章：`s09_hooks_and_policy`
+- 已完成章节：9 / 24
+- 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
+- 正在进行：准备编写第十章
+- 下一章：`s10_agents_md_instructions`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -89,13 +89,23 @@
   - 明确 trust、项目配置资格、默认 permission profile 与 approval policy 不是同一个开关。
   - 实现 resolved runtime config 与轻量 config lock 漂移检测。
   - 将 resolved permission profile 接入 s07 sandbox，展示配置解析最终影响工具执行。
+- 完成 `s09_hooks_and_policy`：
+  - 基于 Codex hooks engine、hook runtime、tool registry、orchestrator 与 execpolicy 建立生命周期扩展心智模型。
+  - 实现 PreToolUse、PermissionRequest 与 PostToolUse 三种教学 hook。
+  - 让 PreToolUse 在 policy 与审批前观察、重写或阻断工具调用，并重新验证重写输入。
+  - 让 PermissionRequest hook 在用户审批前返回 allow、deny 或 no-decision，且任意 deny 胜出。
+  - 让 PostToolUse 只处理成功输出，并可替换模型可见反馈。
+  - 新增结构化 hook started/completed 事件与可见失败状态。
+  - 实现 token prefix Exec Policy、显式 fallback 与最严格决策聚合。
+  - 将 Allow、Prompt、Forbidden 映射为 Skip、NeedsApproval 与 Forbidden。
+  - 使用离线模拟命令展示 hooks、policy、approval 与 sandbox 的独立边界。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
-| 安全运行时 | s06-s08 完成；s09 未开始 | 进行中 |
+| 安全运行时 | s06-s09 | 完成 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
@@ -164,6 +174,12 @@
   - 结果：32 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s08_config_and_trust`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s09_hooks_and_policy/code.py`
+  - 结果：PreToolUse 重写命令后重新经过 policy，PostToolUse 替换成功反馈，forbidden 命令不进入审批，已有 patch 仍受 sandbox 限制。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s09_hooks_and_policy -p 'test_*.py' -v`
+  - 结果：43 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s09_hooks_and_policy`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -175,8 +191,8 @@
 
 ## 下一步
 
-1. 编写 `s09_hooks_and_policy`：
-   - 阅读 Codex hooks、hook runtime、exec policy 与相关测试。
-   - 实现工具生命周期 hooks 与独立 policy checks。
-   - 解释扩展点、策略决定和主循环之间的边界。
-2. 完成 s09 后更新本文件、单独 commit 并 push。
+1. 编写 `s10_agents_md_instructions`：
+   - 阅读 Codex `agents_md.rs`、相关 tests 与项目文档发现逻辑。
+   - 实现按目录层级发现、合并和限制 `AGENTS.md` 指令。
+   - 解释项目指令、用户指令与系统上下文之间的边界。
+2. 完成 s10 后更新本文件、单独 commit 并 push。

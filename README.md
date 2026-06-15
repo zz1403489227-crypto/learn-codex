@@ -61,6 +61,7 @@ flowchart LR
 - 已完成：[s06 Approval Pipeline](./s06_approval_pipeline/)
 - 已完成：[s07 Sandbox & Permissions](./s07_sandbox_permissions/)
 - 已完成：[s08 Config & Trust](./s08_config_and_trust/)
-- 下一章：`s09_hooks_and_policy`
+- 已完成：[s09 Hooks & Policy](./s09_hooks_and_policy/)
+- 下一章：`s10_agents_md_instructions`
 
 每完成一章，都会单独提交并推送。

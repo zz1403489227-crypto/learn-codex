@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M3 Context Architecture**
 - 当前分支：`main`
-- 已完成章节：9 / 24
+- 已完成章节：10 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
-- 正在进行：准备编写第十章
-- 下一章：`s10_agents_md_instructions`
+- 正在进行：准备编写第十一章
+- 下一章：`s11_context_fragments`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -99,6 +99,16 @@
   - 实现 token prefix Exec Policy、显式 fallback 与最严格决策聚合。
   - 将 Allow、Prompt、Forbidden 映射为 Skip、NeedsApproval 与 Forbidden。
   - 使用离线模拟命令展示 hooks、policy、approval 与 sandbox 的独立边界。
+- 完成 `s10_agents_md_instructions`：
+  - 基于 Codex `agents_md.rs`、层级提示、配置与测试建立项目指令加载心智模型。
+  - 实现最近 project root marker 发现，并限制搜索范围为项目根到 cwd。
+  - 实现 `AGENTS.override.md`、`AGENTS.md` 与配置 fallback 的逐目录候选优先级。
+  - 每个目录只选择首个普通文件，并按根到 cwd 顺序加载。
+  - 实现单环境共享累计字节预算、后续文档截断与零预算关闭。
+  - 空白文档不进入上下文且不消耗预算；无效 UTF-8 使用 replacement text 并产生 warning。
+  - 分开保存 user instructions、项目 instruction entries、来源路径和 cwd。
+  - 实现 user/project 边界标记与模型可见 user context wrapper。
+  - 明确 AGENTS.md 影响模型上下文，但不替代配置、Policy、Approval 或 Sandbox。
 
 ## 章节进度
 
@@ -106,7 +116,7 @@
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
-| 上下文架构 | s10-s14 | 未开始 |
+| 上下文架构 | s10 完成；s11-s14 未开始 | 进行中 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
@@ -180,6 +190,12 @@
   - 结果：43 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s09_hooks_and_policy`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s10_agents_md_instructions/code.py`
+  - 结果：按 user、根级项目和深层 override 顺序列出来源并渲染用户上下文；既有安全运行时继续运行。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s10_agents_md_instructions -p 'test_*.py' -v`
+  - 结果：55 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s10_agents_md_instructions`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -191,8 +207,8 @@
 
 ## 下一步
 
-1. 编写 `s10_agents_md_instructions`：
-   - 阅读 Codex `agents_md.rs`、相关 tests 与项目文档发现逻辑。
-   - 实现按目录层级发现、合并和限制 `AGENTS.md` 指令。
-   - 解释项目指令、用户指令与系统上下文之间的边界。
-2. 完成 s10 后更新本文件、单独 commit 并 push。
+1. 编写 `s11_context_fragments`：
+   - 阅读 Codex context fragments、initial context 构造、事件映射与相关测试。
+   - 实现有角色、有来源、有边界的上下文片段组装。
+   - 解释 AGENTS.md、环境信息、权限说明和动态能力为何不应拼成无结构字符串。
+2. 完成 s11 后更新本文件、单独 commit 并 push。

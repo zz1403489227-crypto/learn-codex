@@ -1,15 +1,15 @@
 # Progress
 
-最后更新：2026-06-14
+最后更新：2026-06-15
 
 ## 当前状态
 
 - 当前里程碑：**M2 Safe Runtime**
 - 当前分支：`main`
-- 已完成章节：6 / 24
+- 已完成章节：7 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**
-- 正在进行：准备编写第七章
-- 下一章：`s07_sandbox_permissions`
+- 正在进行：准备编写第八章
+- 下一章：`s08_config_and_trust`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -68,13 +68,24 @@
   - 在 patch 审批前预验证拟议变化，并在获批执行时再次验证。
   - 添加分类、事件顺序、拒绝、中止、session 缓存、无效请求和完整 Turn 测试。
   - 明确 approval 表达用户同意，但不替代 sandbox 与实际权限限制。
+- 完成 `s07_sandbox_permissions`：
+  - 基于 Codex PermissionProfile、SandboxManager、ToolOrchestrator 与平台 sandbox 测试建立权限强制心智模型。
+  - 明确区分 Approval、Permission Profile 与 Sandbox 的职责。
+  - 实现 read-only、workspace-write 与 danger-full-access 教学权限 profile。
+  - 实现路径级 Read、Write、Deny 规则、默认拒绝与更具体规则优先。
+  - 在获批工具执行时强制检查文件读写和网络权限。
+  - 保护 workspace 内的 `.git` 与 `.codex` 元数据路径。
+  - 新增结构化 SandboxDenial 与 `sandbox/denied` 事件。
+  - 使用模拟 network probe 展示网络权限与文件权限相互独立。
+  - 添加获批后仍被 read-only sandbox 拒绝、审批预览保留 deny-read、deny 规则优先和失败无副作用测试。
+  - 明确教学进程内检查不能替代操作系统级 sandbox。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
-| 安全运行时 | s06 完成；s07-s09 未开始 | 进行中 |
+| 安全运行时 | s06-s07 完成；s08-s09 未开始 | 进行中 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
@@ -131,6 +142,12 @@
   - 结果：12 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s06_approval_pipeline`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s07_sandbox_permissions/code.py`
+  - 结果：patch 获批后被 read-only sandbox 拒绝，产生 `sandbox/denied`，文件保持不变且 Turn 正常完成。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s07_sandbox_permissions -p 'test_*.py' -v`
+  - 结果：20 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s07_sandbox_permissions`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -142,8 +159,8 @@
 
 ## 下一步
 
-1. 编写 `s07_sandbox_permissions`：
-   - 阅读 Codex sandboxing、permission profile、平台 sandbox 与相关测试。
-   - 在获批工具运行时中加入真正限制可访问路径的 workspace sandbox model。
-   - 解释用户同意、运行时权限与操作系统强制边界的区别。
-2. 完成 s07 后更新本文件、单独 commit 并 push。
+1. 编写 `s08_config_and_trust`：
+   - 阅读 Codex config layer、permission profile resolution、config lock、project trust 与相关测试。
+   - 实现用户配置、项目配置、默认值和可信状态的分层合并。
+   - 解释配置来源、优先级、锁定值与可信项目边界。
+2. 完成 s08 后更新本文件、单独 commit 并 push。

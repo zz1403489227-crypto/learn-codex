@@ -59,6 +59,7 @@ flowchart LR
 - 已完成：[s04 Shell Execution](./s04_shell_execution/)
 - 已完成：[s05 File Tools & Apply Patch](./s05_file_tools_apply_patch/)
 - 已完成：[s06 Approval Pipeline](./s06_approval_pipeline/)
-- 下一章：`s07_sandbox_permissions`
+- 已完成：[s07 Sandbox & Permissions](./s07_sandbox_permissions/)
+- 下一章：`s08_config_and_trust`
 
 每完成一章，都会单独提交并推送。

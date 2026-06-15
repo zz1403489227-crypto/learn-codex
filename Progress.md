@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M3 Context Architecture**
 - 当前分支：`main`
-- 已完成章节：11 / 24
+- 已完成章节：12 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
-- 正在进行：准备编写第十二章
-- 下一章：`s12_skills_progressive_loading`
+- 正在进行：准备编写第十三章
+- 下一章：`s13_context_compaction_memory`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -119,6 +119,15 @@
   - 实现 initial full context、steady-state diff updates 与 baseline 缺失时完整重注入。
   - 实现 contextual user/developer message 识别，避免把运行时上下文当作真实用户消息。
   - 实现 rollback 时裁掉 pre-turn context updates，并在 mixed developer bundle 被裁掉时清空 reference snapshot。
+- 完成 `s12_skills_progressive_loading`：
+  - 基于 Codex `core-skills`、available skills context、skills extension 与相关测试建立渐进式 Skills 加载心智模型。
+  - 实现 `SkillRoot`、`SkillLoader` 与 `SkillLoadOutcome`，从 root 扫描 `SKILL.md` 并读取基础 policy。
+  - 实现预算化 `SkillCatalogRenderer`，将 name、description 与 alias path 渲染为轻量 catalog。
+  - 以 developer role 的 `<skills_instructions>` fragment 接入 s11 的上下文组装器。
+  - 实现 `$skill`、`[$skill](path)` 与结构化选择的保守解析，避免环境变量、connector 冲突和重名误选。
+  - 实现选中后才读取完整 `SKILL.md` 的 `<skill>` user fragment 注入。
+  - 实现读取 `SKILL.md` 与运行 `scripts/` 脚本的隐式调用检测，并在单 turn 内去重。
+  - 添加 12 个 Skills 专项测试，并保留前序章节安全运行时测试基线。
 
 ## 章节进度
 
@@ -126,7 +135,7 @@
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
-| 上下文架构 | s10-s11 完成；s12-s14 未开始 | 进行中 |
+| 上下文架构 | s10-s12 完成；s13-s14 未开始 | 进行中 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
@@ -212,6 +221,16 @@
   - 结果：68 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s11_context_fragments`
   - 结果：通过。
+- `python3.11 s12_skills_progressive_loading/code.py`
+  - 结果：展示 available skills catalog、显式 `$lint-fix` 注入、隐式脚本调用记录，并继续运行既有安全运行时。
+- `python3.11 -m unittest discover -s s12_skills_progressive_loading -p 'test_*.py' -v`
+  - 结果：79 个测试通过。
+- `python3.11 -m compileall -q s12_skills_progressive_loading`
+  - 结果：通过。
+- `python3.11 -c '...'`
+  - 结果：s01-s12 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79。
+- `python3.11 scripts/check_course.py`
+  - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
 
 ## 已知问题与风险
 
@@ -219,12 +238,12 @@
 - 当前系统默认 `python3` 是 3.9；课程代码目标为 Python 3.11+，本机可使用
   `/Users/air/.local/bin/python3.11` 或 `uv run --python 3.11`。
 - 尚未确定教程最终许可证；正式发布前需要由用户确认。
-- 章节目录当前仅为骨架，不代表正文完成。
+- s13 之后章节目录仍为骨架，不代表正文完成。
 
 ## 下一步
 
-1. 编写 `s12_skills_progressive_loading`：
-   - 阅读 Codex core skills、skills extension、可用技能渲染与渐进式加载相关测试。
-   - 实现先暴露技能目录/元数据，再按任务需要加载具体 `SKILL.md` 的教学流程。
-   - 解释 Skills 与 AGENTS.md、Plugins、Apps 同样贡献上下文，但加载时机和预算策略不同。
-2. 完成 s12 后更新本文件、单独 commit 并 push。
+1. 编写 `s13_context_compaction_memory`：
+   - 阅读 Codex context manager、compaction、memory 与恢复相关源码和测试。
+   - 解释为什么长期会话必须压缩历史、保留 reference state，并区分 summary、memory 与原始 rollout。
+   - 在教学运行时中实现最小 compaction/memory 流程，并接入前面章节的上下文与事件模型。
+2. 完成 s13 后更新本文件、单独 commit 并 push。

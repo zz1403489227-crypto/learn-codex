@@ -64,6 +64,7 @@ flowchart LR
 - 已完成：[s09 Hooks & Policy](./s09_hooks_and_policy/)
 - 已完成：[s10 AGENTS.md Instructions](./s10_agents_md_instructions/)
 - 已完成：[s11 Context Fragments](./s11_context_fragments/)
-- 下一章：`s12_skills_progressive_loading`
+- 已完成：[s12 Skills Progressive Loading](./s12_skills_progressive_loading/)
+- 下一章：`s13_context_compaction_memory`
 
 每完成一章，都会单独提交并推送。

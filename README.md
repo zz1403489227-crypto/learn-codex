@@ -51,7 +51,7 @@ flowchart LR
 
 ## 写作状态
 
-目前已完成 **M1 Runnable Core**，开始进入 **M2 Safe Runtime** 阶段。
+目前已完成 **M1 Runnable Core** 与 **M2 Safe Runtime**，正在推进 **M3 Context Architecture**。
 
 - 已完成：[s01 Turn Loop](./s01_turn_loop/)
 - 已完成：[s02 Streaming Items](./s02_streaming_items/)
@@ -63,6 +63,7 @@ flowchart LR
 - 已完成：[s08 Config & Trust](./s08_config_and_trust/)
 - 已完成：[s09 Hooks & Policy](./s09_hooks_and_policy/)
 - 已完成：[s10 AGENTS.md Instructions](./s10_agents_md_instructions/)
-- 下一章：`s11_context_fragments`
+- 已完成：[s11 Context Fragments](./s11_context_fragments/)
+- 下一章：`s12_skills_progressive_loading`
 
 每完成一章，都会单独提交并推送。

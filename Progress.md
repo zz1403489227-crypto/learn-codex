@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M3 Context Architecture**
 - 当前分支：`main`
-- 已完成章节：10 / 24
+- 已完成章节：11 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
-- 正在进行：准备编写第十一章
-- 下一章：`s11_context_fragments`
+- 正在进行：准备编写第十二章
+- 下一章：`s12_skills_progressive_loading`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -109,6 +109,16 @@
   - 分开保存 user instructions、项目 instruction entries、来源路径和 cwd。
   - 实现 user/project 边界标记与模型可见 user context wrapper。
   - 明确 AGENTS.md 影响模型上下文，但不替代配置、Policy、Approval 或 Sandbox。
+- 完成 `s11_context_fragments`：
+  - 基于 Codex `context-fragments` crate、`context/` 模块、`context_manager` 与 session 测试建立片段化上下文心智模型。
+  - 实现 role、marker、body 分离的 `ContextFragment` 教学基类。
+  - 实现 environment、permissions、model switch、collaboration、token budget 与 external user fragments。
+  - 将 `AGENTS.md`、external context 和 environment 聚合为 contextual user message。
+  - 将 permissions、developer instructions、collaboration mode 与 token budget 聚合为 developer message。
+  - 实现 `ContextSnapshot` 作为可比较 reference baseline。
+  - 实现 initial full context、steady-state diff updates 与 baseline 缺失时完整重注入。
+  - 实现 contextual user/developer message 识别，避免把运行时上下文当作真实用户消息。
+  - 实现 rollback 时裁掉 pre-turn context updates，并在 mixed developer bundle 被裁掉时清空 reference snapshot。
 
 ## 章节进度
 
@@ -116,7 +126,7 @@
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
-| 上下文架构 | s10 完成；s11-s14 未开始 | 进行中 |
+| 上下文架构 | s10-s11 完成；s12-s14 未开始 | 进行中 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
@@ -196,6 +206,12 @@
   - 结果：55 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s10_agents_md_instructions`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s11_context_fragments/code.py`
+  - 结果：展示 initial context 的 developer/user 分组、后续 context diff，并继续运行既有安全运行时。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s11_context_fragments -p 'test_*.py' -v`
+  - 结果：68 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s11_context_fragments`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -207,8 +223,8 @@
 
 ## 下一步
 
-1. 编写 `s11_context_fragments`：
-   - 阅读 Codex context fragments、initial context 构造、事件映射与相关测试。
-   - 实现有角色、有来源、有边界的上下文片段组装。
-   - 解释 AGENTS.md、环境信息、权限说明和动态能力为何不应拼成无结构字符串。
-2. 完成 s11 后更新本文件、单独 commit 并 push。
+1. 编写 `s12_skills_progressive_loading`：
+   - 阅读 Codex core skills、skills extension、可用技能渲染与渐进式加载相关测试。
+   - 实现先暴露技能目录/元数据，再按任务需要加载具体 `SKILL.md` 的教学流程。
+   - 解释 Skills 与 AGENTS.md、Plugins、Apps 同样贡献上下文，但加载时机和预算策略不同。
+2. 完成 s12 后更新本文件、单独 commit 并 push。

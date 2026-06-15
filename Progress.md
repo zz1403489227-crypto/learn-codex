@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M2 Safe Runtime**
 - 当前分支：`main`
-- 已完成章节：7 / 24
+- 已完成章节：8 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**
-- 正在进行：准备编写第八章
-- 下一章：`s08_config_and_trust`
+- 正在进行：准备编写第九章
+- 下一章：`s09_hooks_and_policy`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -79,13 +79,23 @@
   - 使用模拟 network probe 展示网络权限与文件权限相互独立。
   - 添加获批后仍被 read-only sandbox 拒绝、审批预览保留 deny-read、deny 规则优先和失败无副作用测试。
   - 明确教学进程内检查不能替代操作系统级 sandbox。
+- 完成 `s08_config_and_trust`：
+  - 基于 Codex ConfigLayerStack、loader、project trust、requirements 与 config lock 建立配置解析心智模型。
+  - 实现 system、user、project、session 四层低到高优先级配置。
+  - 实现递归 table merge、scalar 替换与 leaf origins 来源追踪。
+  - 保留 unknown 和 untrusted project layers，但通过 disabled reason 阻止其参与 effective config。
+  - 对 trusted project 仍清理 provider、base URL、notify 和 profile 等高风险键。
+  - 将 requirements 与普通 config layer 分离，并对被禁止的 permission profile 执行安全回退。
+  - 明确 trust、项目配置资格、默认 permission profile 与 approval policy 不是同一个开关。
+  - 实现 resolved runtime config 与轻量 config lock 漂移检测。
+  - 将 resolved permission profile 接入 s07 sandbox，展示配置解析最终影响工具执行。
 
 ## 章节进度
 
 | 阶段 | 章节 | 状态 |
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
-| 安全运行时 | s06-s07 完成；s08-s09 未开始 | 进行中 |
+| 安全运行时 | s06-s08 完成；s09 未开始 | 进行中 |
 | 上下文架构 | s10-s14 | 未开始 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
@@ -148,6 +158,12 @@
   - 结果：20 个测试通过。
 - `/Users/air/.local/bin/python3.11 -m compileall -q s07_sandbox_permissions`
   - 结果：通过。
+- `/Users/air/.local/bin/python3.11 s08_config_and_trust/code.py`
+  - 结果：session model 来源被记录，project 高风险键被清理，full-access 请求被 requirements 回退为 read-only，patch 获批后仍被 sandbox 拒绝。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s08_config_and_trust -p 'test_*.py' -v`
+  - 结果：32 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s08_config_and_trust`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -159,8 +175,8 @@
 
 ## 下一步
 
-1. 编写 `s08_config_and_trust`：
-   - 阅读 Codex config layer、permission profile resolution、config lock、project trust 与相关测试。
-   - 实现用户配置、项目配置、默认值和可信状态的分层合并。
-   - 解释配置来源、优先级、锁定值与可信项目边界。
-2. 完成 s08 后更新本文件、单独 commit 并 push。
+1. 编写 `s09_hooks_and_policy`：
+   - 阅读 Codex hooks、hook runtime、exec policy 与相关测试。
+   - 实现工具生命周期 hooks 与独立 policy checks。
+   - 解释扩展点、策略决定和主循环之间的边界。
+2. 完成 s09 后更新本文件、单独 commit 并 push。

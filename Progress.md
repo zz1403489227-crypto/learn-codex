@@ -4,12 +4,12 @@
 
 ## 当前状态
 
-- 当前里程碑：**M3 Context Architecture**
+- 当前里程碑：**M4 Durable Agent**
 - 当前分支：`main`
-- 已完成章节：13 / 24
-- 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
-- 正在进行：准备编写第十四章
-- 下一章：`s14_threads_turns_and_state`
+- 已完成章节：14 / 24
+- 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**、**M3 Context Architecture**
+- 正在进行：准备编写第十五章
+- 下一章：`s15_rollouts_resume_and_fork`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -138,6 +138,14 @@
   - 实现执行性 turn 的 token baseline accounting、Plan mode 不计费、tool finish 计费、budget_limited 与 completion budget report。
   - 实现 objective prompt XML escape，强调 goal objective 是用户数据，不是高优先级指令。
   - 添加 14 个 Plans/Modes/Goals 专项测试，并保留前序章节运行时测试基线。
+- 完成 `s14_threads_turns_and_state`：
+  - 基于 Codex `ThreadId`/`SessionId`、`CodexThread`、`ThreadManager`、`SessionState`、`TurnState`、`TurnContextItem`、`ThreadStore` 与 state runtime 建立 Thread/Turn/State 分层心智模型。
+  - 明确区分 Thread 长期身份、Turn 请求边界、Active runtime state 临时等待区与 persistent store。
+  - 实现 `ThreadId`、`ThreadMetadata`、`TurnRecord`、`TurnContextSnapshot`、`TurnRuntimeState`、`InMemoryThreadStore`、`ManagedThread` 与 `ThreadManager`。
+  - 将 s13 的单 turn loop 包装为 managed thread：管理层提前分配 `turn_id`，store 记录 turn status，底层 loop 继续负责 model/tool/event 流。
+  - 实现 active turn 忙闲检查、completion/abort/failure 状态更新、pending waiter 清理、thread preview、archive 与 fork metadata。
+  - 将 `ContextHistory`、`PlanState` 与 `GoalManager` 接入 turn start snapshot，演示 context baseline、plan summary 与 active goal 的 turn-scoped 捕获。
+  - 添加 11 个 Thread/Turn/State 专项测试，并保留前序章节运行时测试基线。
 
 ## 章节进度
 
@@ -145,7 +153,7 @@
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
-| 上下文架构 | s10-s13 完成；s14 未开始 | 进行中 |
+| 上下文架构 | s10-s14 | 完成 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
@@ -241,6 +249,16 @@
   - 结果：s01-s12 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79。
 - `python3.11 scripts/check_course.py`
   - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
+- `/Users/air/.local/bin/python3.11 s14_threads_turns_and_state/code.py "Update greeting through a managed thread"`
+  - 结果：通过 `ThreadManager` 创建 thread，记录 `completed` turn、context snapshot 与 sandbox denial，输出 thread id、stored turn 和 context update 数。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s14_threads_turns_and_state -p 'test_*.py'`
+  - 结果：104 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s14_threads_turns_and_state`
+  - 结果：通过。
+- `/Users/air/.local/bin/python3.11 scripts/check_course.py`
+  - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
+- `/Users/air/.local/bin/python3.11 -c '...'`
+  - 结果：s01-s14 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79、93、104。
 - `python3.11 s13_plans_modes_and_goals/code.py`
   - 结果：展示 `update_plan`、Plan mode 拒绝、`<proposed_plan>`、goal 创建/计费/完成报告，并继续运行既有安全运行时。
 - `python3.11 -m unittest discover -s s13_plans_modes_and_goals -p 'test_*.py' -v`
@@ -258,12 +276,12 @@
 - 当前系统默认 `python3` 是 3.9；课程代码目标为 Python 3.11+，本机可使用
   `/Users/air/.local/bin/python3.11` 或 `uv run --python 3.11`。
 - 尚未确定教程最终许可证；正式发布前需要由用户确认。
-- s14 之后章节目录仍为骨架，不代表正文完成。
+- s15 之后章节目录仍为骨架，不代表正文完成。
 
 ## 下一步
 
-1. 编写 `s14_threads_turns_and_state`：
-   - 阅读 Codex session、thread manager、state、thread id 与 turn context 相关源码和测试。
-   - 解释 Thread、Turn、runtime state、persistent state 和 context baseline 如何分层。
-   - 在教学运行时中显式建模 Thread/Turn 状态机，并接入前面章节的上下文、Skills、计划和目标。
-2. 完成 s14 后更新本文件、单独 commit 并 push。
+1. 编写 `s15_rollouts_resume_and_fork`：
+   - 阅读 Codex rollout persistence、resume、fork、rollout reconstruction 与相关测试。
+   - 解释 durable rollout、replay history、interrupted turn marker、resume/fork 截断边界。
+   - 在教学运行时中把 s14 的 thread store 扩展为可序列化 replay log。
+2. 完成 s15 后更新本文件、单独 commit 并 push。

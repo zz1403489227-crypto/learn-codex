@@ -65,6 +65,7 @@ flowchart LR
 - 已完成：[s10 AGENTS.md Instructions](./s10_agents_md_instructions/)
 - 已完成：[s11 Context Fragments](./s11_context_fragments/)
 - 已完成：[s12 Skills Progressive Loading](./s12_skills_progressive_loading/)
-- 下一章：`s13_context_compaction_memory`
+- 已完成：[s13 Plans, Modes & Goals](./s13_plans_modes_and_goals/)
+- 下一章：`s14_threads_turns_and_state`
 
 每完成一章，都会单独提交并推送。

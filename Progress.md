@@ -1,15 +1,15 @@
 # Progress
 
-最后更新：2026-06-15
+最后更新：2026-06-16
 
 ## 当前状态
 
 - 当前里程碑：**M3 Context Architecture**
 - 当前分支：`main`
-- 已完成章节：12 / 24
+- 已完成章节：13 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**
-- 正在进行：准备编写第十三章
-- 下一章：`s13_context_compaction_memory`
+- 正在进行：准备编写第十四章
+- 下一章：`s14_threads_turns_and_state`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -128,6 +128,16 @@
   - 实现选中后才读取完整 `SKILL.md` 的 `<skill>` user fragment 注入。
   - 实现读取 `SKILL.md` 与运行 `scripts/` 脚本的隐式调用检测，并在单 turn 内去重。
   - 添加 12 个 Skills 专项测试，并保留前序章节安全运行时测试基线。
+- 完成 `s13_plans_modes_and_goals`：
+  - 基于 Codex `update_plan`、collaboration mode templates、goal extension、state runtime 与 app-server plan item 测试建立运行契约心智模型。
+  - 明确区分 Goal、Collaboration Mode 与 Plan：长期目标、协作约束和当前可见 checklist 分属不同状态。
+  - 实现 `PlanState`、`PlanUpdate` 与 `PlanItem`，校验最多一个 `in_progress`。
+  - 实现 Plan mode 下拒绝 `update_plan`，并用 `ProposedPlan` 演示 `<proposed_plan>` plan item。
+  - 实现 Default、Plan、Execute、Pair Programming 四种教学协作模式及是否允许 mutation/update_plan 的边界。
+  - 实现 `GoalManager` 与 `ThreadGoal`，覆盖 create/get/update、未完成 goal 拒绝替换、complete 后可替换。
+  - 实现执行性 turn 的 token baseline accounting、Plan mode 不计费、tool finish 计费、budget_limited 与 completion budget report。
+  - 实现 objective prompt XML escape，强调 goal objective 是用户数据，不是高优先级指令。
+  - 添加 14 个 Plans/Modes/Goals 专项测试，并保留前序章节运行时测试基线。
 
 ## 章节进度
 
@@ -135,7 +145,7 @@
 |---|---|---|
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
-| 上下文架构 | s10-s12 完成；s13-s14 未开始 | 进行中 |
+| 上下文架构 | s10-s13 完成；s14 未开始 | 进行中 |
 | 长期会话 | s15-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
@@ -231,6 +241,16 @@
   - 结果：s01-s12 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79。
 - `python3.11 scripts/check_course.py`
   - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
+- `python3.11 s13_plans_modes_and_goals/code.py`
+  - 结果：展示 `update_plan`、Plan mode 拒绝、`<proposed_plan>`、goal 创建/计费/完成报告，并继续运行既有安全运行时。
+- `python3.11 -m unittest discover -s s13_plans_modes_and_goals -p 'test_*.py' -v`
+  - 结果：93 个测试通过。
+- `python3.11 -m compileall -q s13_plans_modes_and_goals`
+  - 结果：通过。
+- `python3.11 -c '...'`
+  - 结果：s01-s13 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79、93。
+- `python3.11 scripts/check_course.py`
+  - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
 
 ## 已知问题与风险
 
@@ -238,12 +258,12 @@
 - 当前系统默认 `python3` 是 3.9；课程代码目标为 Python 3.11+，本机可使用
   `/Users/air/.local/bin/python3.11` 或 `uv run --python 3.11`。
 - 尚未确定教程最终许可证；正式发布前需要由用户确认。
-- s13 之后章节目录仍为骨架，不代表正文完成。
+- s14 之后章节目录仍为骨架，不代表正文完成。
 
 ## 下一步
 
-1. 编写 `s13_context_compaction_memory`：
-   - 阅读 Codex context manager、compaction、memory 与恢复相关源码和测试。
-   - 解释为什么长期会话必须压缩历史、保留 reference state，并区分 summary、memory 与原始 rollout。
-   - 在教学运行时中实现最小 compaction/memory 流程，并接入前面章节的上下文与事件模型。
-2. 完成 s13 后更新本文件、单独 commit 并 push。
+1. 编写 `s14_threads_turns_and_state`：
+   - 阅读 Codex session、thread manager、state、thread id 与 turn context 相关源码和测试。
+   - 解释 Thread、Turn、runtime state、persistent state 和 context baseline 如何分层。
+   - 在教学运行时中显式建模 Thread/Turn 状态机，并接入前面章节的上下文、Skills、计划和目标。
+2. 完成 s14 后更新本文件、单独 commit 并 push。

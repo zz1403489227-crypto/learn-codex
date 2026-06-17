@@ -6,10 +6,10 @@
 
 - 当前里程碑：**M4 Durable Agent**
 - 当前分支：`main`
-- 已完成章节：14 / 24
+- 已完成章节：15 / 24
 - 已完成里程碑：**M0 Foundation**、**M1 Runnable Core**、**M2 Safe Runtime**、**M3 Context Architecture**
-- 正在进行：准备编写第十五章
-- 下一章：`s15_rollouts_resume_and_fork`
+- 正在进行：准备编写第十六章
+- 下一章：`s16_compaction_and_token_budget`
 - GitHub：`https://github.com/zz1403489227-crypto/learn-codex`
 
 ## 本次会话完成
@@ -146,6 +146,12 @@
   - 实现 active turn 忙闲检查、completion/abort/failure 状态更新、pending waiter 清理、thread preview、archive 与 fork metadata。
   - 将 `ContextHistory`、`PlanState` 与 `GoalManager` 接入 turn start snapshot，演示 context baseline、plan summary 与 active goal 的 turn-scoped 捕获。
   - 添加 11 个 Thread/Turn/State 专项测试，并保留前序章节运行时测试基线。
+- 完成 `s15_rollouts_resume_and_fork`：
+  - 基于 Codex `codex-rollout`、local thread-store live writer、rollout reconstruction、thread rollout truncation 与 thread manager fork/resume 测试建立 durable rollout 心智模型。
+  - 在 s14 的 `InMemoryThreadStore` 上增加可选 JSONL rollout 目录，创建 thread 时写入 `session_meta`，turn 开始/完成/中断/失败时追加 canonical facts。
+  - 实现 `JsonlRollout`、`RolloutReplay`、`resume_thread_from_rollout` 与 `fork_thread_from_rollout`，从 rollout replay 恢复 thread metadata、turn records、模型历史和简化 context baseline。
+  - 实现 `ForkSnapshot.FULL`、`ForkSnapshot.INTERRUPTED` 与 `TruncateBeforeNthUserMessage`，展示 full fork、用户 turn 边界截断和 mid-turn interrupted marker。
+  - 添加 4 个 Rollout/Resume/Fork 专项测试，并保留前序章节运行时测试基线。
 
 ## 章节进度
 
@@ -154,7 +160,8 @@
 | 从循环到运行时 | s01-s05 | 完成 |
 | 安全运行时 | s06-s09 | 完成 |
 | 上下文架构 | s10-s14 | 完成 |
-| 长期会话 | s15-s18 | 未开始 |
+| 长期会话 | s15 | 完成 |
+| 长期会话 | s16-s18 | 未开始 |
 | 协作与扩展 | s19-s22 | 未开始 |
 | 工程化与综合 | s23-s24 | 未开始 |
 
@@ -269,6 +276,18 @@
   - 结果：s01-s13 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79、93。
 - `python3.11 scripts/check_course.py`
   - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
+- `/Users/air/.local/bin/python3.11 s15_rollouts_resume_and_fork/code.py "Update greeting through rollout"`
+  - 结果：完成一次 rollout-backed managed thread，输出 rollout path、replay 数量、resumed thread id 与 forked thread id。
+- `/Users/air/.local/bin/python3.11 -m unittest discover -s s15_rollouts_resume_and_fork -p 'test_*.py' -v`
+  - 结果：108 个测试通过。
+- `/Users/air/.local/bin/python3.11 -m compileall -q s15_rollouts_resume_and_fork`
+  - 结果：通过。
+- `/Users/air/.local/bin/python3.11 -c '...'`
+  - 结果：s01-s15 章节单测全部通过；各章测试数依次为 4、5、7、11、10、12、20、32、43、55、68、79、93、104、108。
+- `/Users/air/.local/bin/python3.11 scripts/check_course.py`
+  - 结果：通过，确认 24 个连续章节目录、必需交接文件和章节开篇 Mermaid 图。
+- `git diff --check`
+  - 结果：通过。
 
 ## 已知问题与风险
 
@@ -276,12 +295,12 @@
 - 当前系统默认 `python3` 是 3.9；课程代码目标为 Python 3.11+，本机可使用
   `/Users/air/.local/bin/python3.11` 或 `uv run --python 3.11`。
 - 尚未确定教程最终许可证；正式发布前需要由用户确认。
-- s15 之后章节目录仍为骨架，不代表正文完成。
+- s16 之后章节目录仍为骨架，不代表正文完成。
 
 ## 下一步
 
-1. 编写 `s15_rollouts_resume_and_fork`：
-   - 阅读 Codex rollout persistence、resume、fork、rollout reconstruction 与相关测试。
-   - 解释 durable rollout、replay history、interrupted turn marker、resume/fork 截断边界。
-   - 在教学运行时中把 s14 的 thread store 扩展为可序列化 replay log。
-2. 完成 s15 后更新本文件、单独 commit 并 push。
+1. 编写 `s16_compaction_and_token_budget`：
+   - 阅读 Codex compact、remote compact、auto compact window、compact task 与 session token budget 相关源码和测试。
+   - 解释 compaction replacement history、context baseline 清理、token budget 与 rollout replay 的关系。
+   - 在教学运行时中加入预算窗口和可重放的 compaction item。
+2. 完成 s16 后更新本文件、单独 commit 并 push。
